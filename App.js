@@ -42,16 +42,11 @@ Ext.define('CustomApp', {
         }
       }
     ]);
-
-    //https://rally1.rallydev.com/#/109040305124d/detail/userstory/183264007752
-    //Write app code here
-
-    //API Docs: https://help.rallydev.com/apps/2.1/doc/
   },
 
   _onGoClicked: function() {
     this.down('#results').removeAll();
-    this.setLoading(true);
+    
     var value = this.down('#id').getValue();
     if (value) {
       var oid = parseInt(value);
@@ -60,6 +55,7 @@ Ext.define('CustomApp', {
       }
       
       if (oid) {
+        this.setLoading(true);
         Ext.create('Rally.data.lookback.SnapshotStore', {
           context: this.getContext().getDataContext(),
           fetch: ['FormattedID', 'Name', '_User', '_SnapshotType'],
@@ -80,6 +76,8 @@ Ext.define('CustomApp', {
           success: this._onSnapshotsLoaded, 
           scope: this
         });
+      } else {
+        this._showResult('Please enter a valid url or object id.');
       }
     }
   },
